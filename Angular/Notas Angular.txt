@@ -1,0 +1,211 @@
+1. Para instalar Angular 17 
+	npm install -g @angular/cli@17
+	Tener Node.js 18 para que funcione
+	
+	Revisar con 
+	* ng version
+//Para agregar un nuevo modulo al proyecto se ocupa
+	ng g m (nombre del modulo)
+		
+//Para agregar nuevos componentes a un proyecto en angular se utiliza lo siguiente:
+	ng g c heroes/listado 
+	ng g c dbz/mainPage --skip-tests , para eliminar los archivos de prueba. 
+	
+	que significa:
+	
+		* g: generate
+		* c: componente
+		* heroes/listado: la ruta donde queremos que se cree el componente y te crea todos los archivos correspondientes
+		
+		
+//ngFor, sirve para mostrar el listado de elementos de un arreglo	
+//ngIf, sirve para indicar o mostrar cuando un elemento es modificado o eliminado
+//ng-template, sirve para indicar mensajes localmente o agregando una referencia local ejemplo #noBorrado se ocupa el simbolo numeral para realizarlo. 
+
+//Para subir el proyecto a GitHub:
+git init //para iniciar git
+git add . //para subir todo lo que tenemos
+git commit -m "primer commit"
+
+git remote add origin https://github.com/JayalaPerez/angular-curso.git
+git branch -M main
+git push -u origin main
+
+git remote add origin https://github.com/JayalaPerez/angular-curso.git
+git branch -M main
+git push -u origin main
+
+//Formularios :
+
+import FormsModule --> para importar en el modulo corresponiente.
+
+
+//SERVICIOS
+
+
+//BUILD DE PRODUCCION
+
+Nota de actualización - ng build
+En la siguiente clase utilizamos el comando ng build --prod para generar el build de producción, pero a partir de la versión 12 de Angular, ng build --prod queda obsoleto, en su lugar se debe utilizar el comando ng build --configuration production.
+
+En primera instancia para ejecutar el build, se debe iniciar el 
+
+1. ng build --configuration production //Esto hara que transforme nuestra aplicacion en producción. 
+2. Netlify, para subir el proyecto a produccion, se debe tomar la carpeta browser y soltar en netlify. 
+
+Siempre se debe exportar e importar el module correspondiente.
+
+
+*HttpParams = Sirven para agregar los parametros mas ordenados en el codigo, esto es una de las opciones que tiene POSTMAN al momento de agregar, por ejemplo: 
+
+	this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${query}&limit=10`)
+      .subscribe((resp) => {
+        console.log(resp.data);
+        this.resultados = resp.data;
+      });
+
+
+ A esto: 
+
+//Se crea una cosntante llamada params, donde van todos los parametros y sus correspondientes valores
+     const params = new HttpParams () 
+          .set('api_key', this.apiKey)
+          .set('q', query)
+          .set('limit', '10');
+
+//Luego se crea una constante si esa URL o API es la que se va a ocupar siempre como por ejemplo:
+	  private servicioUrl: string = 'https://api.giphy.com/v1/gifs';  
+
+//Luego agregamos solo el endpoint que queremos ocupar y agregamos la constante del URL y los paramemtros
+    this.http.get<SearchGifsResponse>(`${this.servicioUrl}/search`, { params })
+      .subscribe((resp) => {
+        console.log(resp.data);
+        this.resultados = resp.data;
+      });
+
+*Animate Style CSS = Donde se pueden descargar ciertas animaciones para agregar a nuestro proyecto https://animate.style/ es importante ir viendo para ver las mejoras de los cambios de animaciones. Para agregarlo solo debemos realizar lo siguiente:
+
+	1. Ir a nuestro index.html y lo pegamos en la siguiente parte: 
+		<!-- Bootstrap CSS -->
+  			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"rel="stylesheet"integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  			<link
+    			rel="stylesheet"
+    			href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  			/>
+
+  	2. Luego nos vamos al resultados component y definimos la clase animate__animated animate__fadeIn de la siguiente manera: 
+
+  		 <div 
+    		*ngFor="let gif of resultados"
+    		class="col-md-4 col-sm-6 animate__animated animate__fadeIn">
+    		<div class="card">
+        		<img [src]="gif.images.downsized_medium.url" [alt]="gif.title" class="card-img-top">
+        	<div class="car-body">
+            	<p class="card-text">
+                	{{ gif.title }}
+            	</p>
+        	</div>
+    	</div>
+
+
+    	Cabe señalar que puede ir cualquier clase que nos guste. 
+
+
+
+ *SECCION 8 PAISES APP 
+
+ a) Crear la carpeta ng new paisesApp
+ b) Contestar las preguntas de Angular
+ 	? Which stylesheet format would you like to use?		
+		> CSS             [ https://developer.mozilla.org/docs/Web/CSS   
+ Esperar que termine de instalar y ejecutar en el cmd lo siguiente ng serve -o (Con esto nos abre la aplicacion )
+
+Paso 1: Bootstrap
+Luego hay que instalar el bootstrap en el index.html <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+Paso 2: Crear los directorios
+
+	1. Crear un modulo shared, es para guardar componentes que seran reutilizados a lo largo de la aplicacion ejemplo (sibebar,footer,navbar o cualquier cosa que pudiese ser reutilizado). Se crera la carpeta sidebar, footer y menu (estas dos ultimas solo para que no se nos mezclen las carpetas en shared o se vean todo en la misma linea)
+
+	2. Luego se en el app se crea la carpeta pais, para luego crear las subcarpetas components,interfaces,pages,services.
+
+	3. Se crean los modulos y los componentes basicos que se ocuparan. Para ello generamos el modulo con el angular CLI, de la siguiente manera: 
+
+		a) ng g m pais
+			Y nos crea el archivo pais.module.ts
+
+		b) ng g m shared
+			Y nos crea el archivo shared.module.ts
+
+		c) ng g c shared/sibedar --skip-tests 
+
+		d) ng g c pais/pages/porCapital --skip-tests
+
+		e) ng g c pais/pages/porPais --skip-tests
+
+		f) ng g c pais/pages/porRegion --skip-tests
+
+		g) ng gc pais/pages/verPais --skip-tests
+
+
+Paso 3: Creacion de rutas
+
+Para realizar el proceso de rutas debemos llenar el app.routes.ts, de la siguiente manera
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PorPaisComponent } from './pais/pages/por-pais/por-pais.component';
+import { PorRegionComponent } from './pais/pages/por-region/por-region.component';
+import { PorCapitalComponent } from './pais/pages/por-capital/por-capital.component';
+import { VerPaisComponent } from './pais/pages/ver-pais/ver-pais.component';
+
+const routes: Routes = [
+    {
+        path: '',
+        component: PorPaisComponent,
+        pathMatch: 'full'
+    },
+    {
+        path:'region',
+        component: PorRegionComponent,
+    },
+    {
+        path: 'capital',
+        component: PorCapitalComponent,
+    },
+    {
+        path: 'pais/:id',
+        component: VerPaisComponent,
+    },
+    {
+        path: '**',
+        redirectTo: '',
+    }
+];
+
+Ahora para que nos muestre le nombre de las rutas que necesitamos debemos agregar lo siguiente en el app.component.html:
+
+ <div class="col">
+        <router-outlet></router-outlet>
+ </div>
+
+Esto hace que al momentos de utilizar las rutas, nos muestre directamente los componentes de cada ruta. 
+
+
+private apiUrl = 'https://restcountries.com/v3.1';
+
+buscarPais(termino: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/name/${termino}`);
+}
+
+****PrimeFlex****
+Es una biblioteca ligera de clases utilitarias de CSS (basada principalmente en Flexbox y Grid) creada por el equipo de PrimeNG/PrimeTek.
+
+En términos sencillos: es el equivalente de PrimeNG a herramientas como Tailwind CSS o el sistema de rejillas y utilidades de Bootstrap.
+
+En lugar de crear un archivo .css propio y escribir reglas como display: flex, margin-bottom: 1rem o justify-content: space-between, aplicas clases prefabricadas directamente en las etiquetas HTML. 
+
+La instalacion se realiza 
+* a traves de la terminal con el siguiente comando npm install primeflex
+* cargar en el angulas.json en la parte de los styles lo siguiente "node_modules/primeflex/primeflex.css"
+

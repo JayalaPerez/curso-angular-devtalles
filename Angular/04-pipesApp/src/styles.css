@@ -1,0 +1,8 @@
+html, body {
+    margin: 10px;
+    
+}
+
+.text-layout {
+    color: var( --text-color);
+}
